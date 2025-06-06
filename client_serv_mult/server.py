@@ -62,7 +62,7 @@ def handle_cliente(conn, addr):
 
 def iniciar_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bimd((HOST,PORTA))
+        s.bind((HOST,PORTA))
         s.listen()
         registrar_log(f"Servidor iniciado em {HOST}:{PORTA}")
         print("servidor aguardando conexoes...")
