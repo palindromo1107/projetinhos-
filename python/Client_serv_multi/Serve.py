@@ -18,13 +18,15 @@ def broadcast (mensagem, origem=None):
         if cliente != origem:
             try:
 cliente.sendall(mensagem.encode('utf-8'))
-            except: clientes_conectados.remove(clientes_conectados)
+            except:
+clientes_conectados.remove(clientes_conectados)
         
 def handle_cliente(conn, addr):
     try:
         conn.sendall("digite usuario: ". encode('utf-8'))        
         usuario= conn.recv(1234).decode('utf-8').strip()
         conn.sendall("Digite senha:".encode('utf_8'))
+
         senha= conn.recv(1034).decode('utf-8').strip
         if USUARIOS.get(usuario) != senha:
             conn.sendall("AUTENTICACAO FALHOU".encode('utf-8'))
