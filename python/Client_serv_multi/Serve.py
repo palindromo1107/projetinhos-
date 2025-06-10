@@ -3,8 +3,8 @@ import threading
 import time
 from datetime import datetime
 
-HOST='127.0.0.1'
-PORTA= 12349
+HOST= '10.10.29.112'
+PORTA= 1026
 USUARIOS={"aluno": "ifpb1234","admin": "admin123"}
 LOGS_FILE="serve_logs.txt"
 clientes_conectados =[]
@@ -12,31 +12,32 @@ clientes_conectados =[]
 def registrar_log(mensagem):
     with open(LOGS_FILE,"a") as log_file:
         log_file.write(f"[{datetime.now()}]{mensagem}\n")
-        
+
 def broadcast (mensagem, origem=None):
     for cliente in clientes_conectados:
         if cliente != origem:
             try:
                 cliente.sendall(mensagem.encode('utf-8'))
             except:        
-                clientes_conectados.remove(clientes_conectados) 
-                
+                clientes_conectados.remove(clientes_conectados)  
+
 def handle_cliente(conn, addr):
     try:
         conn.sendall("digite usuario: ". encode('utf-8'))        
         usuario= conn.recv(1234).decode('utf-8').strip()
-        conn.sendall("Digite senha:".encode('utf_8'))
-        senha= conn.recv(1034).decode('utf-8').strip
-        
+        conn.sendall("Digite senha: ".encode('utf-8'))
+        senha= conn.recv(1034).decode('utf-8').strip()
+
         if USUARIOS.get(usuario) != senha:
             conn.sendall("AUTENTICACAO FALHOU".encode('utf-8'))
             registrar_log(f"Falha na autenticacao de {addr}")
             conn.close()
             return
-            
-        conn.sendall("AUTENTICACAO OK".encode('utf-8'))
-        clientes_conectados.append(conn)
-        registrar_log(f"Novo cliente conectado: {usuario}@{addr}")
+        else:
+        
+            conn.sendall("AUTENTICACAO OK".encode('utf-8'))
+            clientes_conectados.append(conn)
+            registrar_log(f"Novo cliente conectado: {usuario}@{addr}")
 
         while True:
             dados = conn.recv(1024)
@@ -63,7 +64,7 @@ def handle_cliente(conn, addr):
     finally:
         if conn in clientes_conectados:
             clientes_conectados.remove(conn)
-            conn.close()
+        conn.close()
         registrar_log(f"Conexao encerrada: {usuario}@{addr}")
 
 def iniciar_server():
@@ -75,8 +76,12 @@ def iniciar_server():
 
         while True:
             conn, addr = s.accept()
-            thread = threading.Thread(thread = handle_cliente, args = (conn, addr))
+            thread = threading.Thread(target = handle_cliente, args = ((conn, addr)))
             thread.start()
+
+def new_func(conn, addr):
+    thread = threading.Thread(target= handle_cliente, args = (conn, addr))
+    return thread
 
 if __name__ == "__main__":
     iniciar_server()
