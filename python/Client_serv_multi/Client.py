@@ -5,24 +5,24 @@ def receber_mensagens(socket_client):
     while True:
         try:
             mensagem = socket_client.recv(1024).decode('utf-8')
-            print("\n" + mensagem +"\ndigite mensagem", end="")
+            print("\n" + mensagem +"\ndigite mensagem: ", end="")
         except:
             print("\nconexão com o servidor perdida")
             break
 
 def iniciar_cliente():
-    host = "127.0.0.1"
-    porta = 12349
+    host = "10.10.29.112"
+    porta = 1026
     
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host,porta))
 
         print(s.recv(1024).decode('utf-8'), end="")
-        usuario = input("a ")
+        usuario = input()
         s.sendall(usuario.encode('utf-8'))
 
-        print(s.recv(1024).decode('utf-8'))
-        senha = input("b ")
+        print(s.recv(1024).decode('utf-8'), end="")
+        senha = input()
         s.sendall(senha.encode('utf-8'))
 
         resposta = s.recv(1024).decode('utf-8')
@@ -39,7 +39,7 @@ def iniciar_cliente():
         thread_receber.start()
 
         while True:
-            mensagem = input("msg; ")
+            mensagem = input(" ")
             if mensagem.lower() == "sair":
                 break
             s.sendall(mensagem.encode('utf-8'))
