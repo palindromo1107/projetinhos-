@@ -8,3 +8,19 @@
     left: 0;
     object-fit: cover;
 }
+
+/* ADICIONAIS
+
+Recomendo remover ao testar o codigo e ver ele puro */
+
+.card img{
+    width: 20em;
+    height: 25em;
+}
+.card{
+    width: min-content;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    box-shadow: 1px 1px black;
+}
