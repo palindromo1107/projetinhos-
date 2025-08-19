@@ -1,0 +1,21 @@
+.cessao {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    gap: 8px;
+}
+
+.card{
+    border: 1px solid whitesmoke;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgb(155, 155, 155);
+    padding: 16px;
+    max-width: 280px;
+    background-color: snow;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#landing-carousel .carousel-inner img {
+    object-fit: cover;
+    height: 400px;
+}
